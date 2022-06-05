@@ -1,3 +1,4 @@
+import { RANDOM } from "mysql/lib/PoolSelector";
 import { useState } from "react";
 import "./App.css";
 import data from "./Questions.js";
@@ -5,9 +6,19 @@ import data from "./Questions.js";
 function App() {
   const [questionId, setQuestionId] = useState(0);
   const [score, setScore] = useState(0);
+  const [idUsed, setIdUsed] = useState([]);
 
   function handleClick() {
-    setQuestionId(() => Math.floor(Math.random() * data.questions.length));
+    let randomNumber = Math.floor(Math.random() * data.questions.length);
+    let oldUsed = idUsed;
+    if (idUsed.includes(randomNumber)) {
+      console.log("idUsed");
+    } else {
+      oldUsed.push(questionId);
+      setQuestionId(() => randomNumber);
+      setIdUsed(oldUsed);
+    }
+    console.log(idUsed);
   }
   function addPoint() {
     setScore((preValue) => ++preValue);
@@ -20,7 +31,7 @@ function App() {
       <div>
         <h2>Scoreboard</h2>
 
-          <button onClick={addPoint}>
+        <button onClick={addPoint}>
           <input placeholder="player's Name" /> | +I HAVE : {score}
         </button>
       </div>
