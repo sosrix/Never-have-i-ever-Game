@@ -1,4 +1,3 @@
-import { RANDOM } from "mysql/lib/PoolSelector";
 import { useState } from "react";
 import "./App.css";
 import data from "./Questions.js";
@@ -7,18 +6,20 @@ function App() {
   const [questionId, setQuestionId] = useState(0);
   const [score, setScore] = useState(0);
   const [idUsed, setIdUsed] = useState([]);
-
+  function randomNumberGen() {
+    return Math.floor(Math.random() * data.questions.length);
+  }
   function handleClick() {
-    let randomNumber = Math.floor(Math.random() * data.questions.length);
+    const randomNumber = randomNumberGen();
+    console.log(randomNumber);
     let oldUsed = idUsed;
     if (idUsed.includes(randomNumber)) {
-      console.log("idUsed");
+      handleClick();
     } else {
       oldUsed.push(questionId);
       setQuestionId(() => randomNumber);
       setIdUsed(oldUsed);
     }
-    console.log(idUsed);
   }
   function addPoint() {
     setScore((preValue) => ++preValue);
