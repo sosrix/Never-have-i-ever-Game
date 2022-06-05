@@ -1,25 +1,31 @@
+import { useState } from "react";
 import "./App.css";
+import data from "./Questions.js";
 
 function App() {
+  const [questionId, setQuestionId] = useState(0);
+  const [score, setScore] = useState(0);
+
+  function handleClick() {
+    setQuestionId(() => Math.floor(Math.random() * data.questions.length));
+  }
+  function addPoint() {
+    setScore((preValue) => ++preValue);
+  }
   return (
     <div className="App">
       <h1>Never Have I Ever Game</h1>
-      <button>Next Question</button>
+      <button onClick={handleClick}>Next Question</button>
+      <h3> {data.questions[questionId]}</h3>
       <div>
         <h2>Scoreboard</h2>
-        <div>
-          <button> Player 1 | +I HAVE : 0</button>
-        </div>
-        <h3>
-          <button> Player 2 | +I HAVE : 0</button>
-        </h3>{" "}
-        <h3>
-          <button> Player 3 | +I HAVE : 0</button>
-        </h3>
+
+          <button onClick={addPoint}>
+          <input placeholder="player's Name" /> | +I HAVE : {score}
+        </button>
       </div>
     </div>
   );
 }
 
 export default App;
-
