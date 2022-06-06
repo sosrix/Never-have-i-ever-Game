@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function PlayerScore() {
+function PlayerScore(props) {
   const [score, setScore] = useState(0);
 
   function addPoint() {
@@ -8,7 +8,7 @@ function PlayerScore() {
   }
   return (
     <div>
-      <button onClick={addPoint}>
+      <button disabled={props.stopScore} id="btnScore" onClick={addPoint}>
         <input placeholder="player's Name" /> | +I HAVE : {score}
       </button>
     </div>
