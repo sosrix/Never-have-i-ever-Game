@@ -8,34 +8,32 @@ function App() {
   const [idUsed, setIdUsed] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
 
-  const button = document.getElementById("btn");
-
   function randomNumberGen() {
     return Math.floor(Math.random() * data.questions.length);
   }
   function handleClick() {
     const randomNumber = randomNumberGen();
     let oldUsed = idUsed;
-    if (idUsed.length >= data.questions.length) {
-      stopGame();
-    } else if (idUsed.includes(randomNumber)) {
-      handleClick();
-    } else {
+
+    if (data.questions.length - idUsed.length === 0) {
+      setGameEnded(true);
+    } else if (!idUsed.includes(randomNumber)) {
       oldUsed.push(questionId);
       setQuestionId(() => randomNumber);
       setIdUsed(oldUsed);
+    } else {
+      handleClick();
     }
-  }
-
-  function stopGame() {
-    setGameEnded(true);
-    button.disabled = true;
   }
 
   return (
     <div className="App">
       <h1>Never Have I Ever Game</h1>
-      <button id="btn" onClick={handleClick}>
+      <h4>
+        Questions used : {idUsed.length} | Questions in databbase :{" "}
+        {data.questions.length - idUsed.length}
+      </h4>
+      <button id="btn" disabled={gameEnded} onClick={handleClick}>
         Next Question
       </button>
       <h3>
