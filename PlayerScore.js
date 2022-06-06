@@ -7,9 +7,11 @@ function PlayerScore(props) {
     setScore((preValue) => ++preValue);
   }
   return (
-    <div>
-      <button disabled={props.stopScore} id="btnScore" onClick={addPoint}>
-        <input placeholder="player's Name" /> | +I HAVE : {score}
+    <div className="players">
+      <h3 className="score">{score}</h3>
+      <input className="input" placeholder="PLAYER'S NAME" />
+      <button disabled={props.stopScore} className="btn" onClick={addPoint}>
+        I HAVE
       </button>
     </div>
   );
