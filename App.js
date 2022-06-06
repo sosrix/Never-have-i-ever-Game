@@ -7,6 +7,8 @@ function App() {
   const [questionId, setQuestionId] = useState(0);
   const [idUsed, setIdUsed] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
+  const [players, setPlayers] = useState([0, 1, 2]);
+  const [forceRender, setforceRender] = useState(true);
 
   function randomNumberGen() {
     return Math.floor(Math.random() * data.questions.length);
@@ -26,27 +28,56 @@ function App() {
     }
   }
 
+  function addPlayer() {
+    const addedPlayers = players;
+    addedPlayers.push(0);
+    setPlayers(addedPlayers);
+    setforceRender(!forceRender);
+  }
+  function deletePlayer() {
+    const deletedPlayers = players;
+    deletedPlayers.pop();
+    setPlayers(deletedPlayers);
+    setforceRender(!forceRender);
+  }
   return (
     <div className="App">
-      <h1>Never Have I Ever Game</h1>
-      <h4>
+      <h1 className="gameName">Never Have I Ever Game</h1>
+      <h5>
         Questions used : {idUsed.length} | Questions in databbase :{" "}
         {data.questions.length - idUsed.length}
-      </h4>
-      <button id="btn" disabled={gameEnded} onClick={handleClick}>
-        Next Question
+      </h5>
+      <button className="btn" disabled={gameEnded} onClick={handleClick}>
+        {idUsed.length === 0 ? "START THE GAME" : "NEXT QUESTION"}
       </button>
-      <h3>
+      <h2 className="Question">
         {idUsed.length === data.questions.length
           ? "Game Ended"
           : data.questions[questionId]}
-      </h3>
-      <div>
-        <h2>Scoreboard</h2>
-        <PlayerScore stopScore={gameEnded} />
-        <PlayerScore stopScore={gameEnded} />
-        <PlayerScore stopScore={gameEnded} />
-        <PlayerScore stopScore={gameEnded} />
+      </h2>
+
+      <div className="board">
+        <h2 className="scoreTitle">
+          Scoreboard{" "}
+          <button
+            className="playerBtn"
+            disabled={gameEnded}
+            onClick={addPlayer}
+          >
+            Add a player
+          </button>
+          <button
+            className="playerBtn"
+            disabled={gameEnded}
+            onClick={deletePlayer}
+          >
+            Delete a player
+          </button>
+        </h2>
+
+        {players.map(() => (
+          <PlayerScore stopScore={gameEnded} />
+        ))}
       </div>
     </div>
   );
